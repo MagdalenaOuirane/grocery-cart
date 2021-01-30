@@ -1,20 +1,24 @@
 const basketIcons = document.querySelectorAll(".store-item-icon");
+
 const infoCartDiv = document.getElementById("cart-info");
+const spanCount = document.getElementById('item-count');
+const spanTotal = document.querySelector('.item-total');
 
 const cart = document.getElementById("cart");
 const total = document.querySelector(".cart-total-container");
 
+const totalCardValue = document.getElementById('cart-total');
+
+
 // First show cart
 
 infoCartDiv.addEventListener("click", (e) => {
-  console.log("info card is clciked");
+  console.log("info card is clicked");
   cart.classList.toggle("show-cart");
 });
 
 basketIcons.forEach((basket) => {
   basket.addEventListener("click", (e) => {
-    alert("Item added to the cart!");
-
     if (e.target.parentElement.classList.contains("store-item-icon")) {
       let fullPath = e.target.parentElement.previousElementSibling.src;
       console.log(fullPath);
@@ -73,6 +77,35 @@ basketIcons.forEach((basket) => {
       //Add cartItem to cart
 
       cart.insertBefore(cardItem, total);
+      alert("Item added to the cart!");
+
+      showTotals();
     }
   });
+
+  //show totals
+
+  function showTotals(e) {
+    const arrTotal = [];
+    console.log(arrTotal);
+    const items = document.querySelectorAll(".cart-item-price");
+
+    items.forEach((item) => {
+      arrTotal.push(parseFloat(item.textContent)); // converting string into number
+    });
+
+    console.log(arrTotal);
+    const totalMoney = arrTotal.reduce(function (arrTotal, item) {
+      arrTotal += item;
+
+      return arrTotal;
+    }, 0);
+    const finalMoney = totalMoney.toFixed(2);
+
+    console.log(finalMoney);
+
+    totalCardValue.textContent = finalMoney;
+    spanCount.textContent = arrTotal.length;
+    spanTotal.textContent = finalMoney;
+  }
 });
